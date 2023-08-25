@@ -152,6 +152,8 @@ def load(
     tracker.print(generator)
     tracker.print(discriminator)
 
+    print('@ line 155')
+
     generator = accel.prepare_model(generator)
     discriminator = accel.prepare_model(discriminator)
 
@@ -409,6 +411,7 @@ def train(
     save_samples = when(lambda: accel.local_rank == 0)(save_samples)
     checkpoint = when(lambda: accel.local_rank == 0)(checkpoint)
 
+    print('@ line 414, starting training')
     with tracker.live:
         for tracker.step, batch in enumerate(train_dataloader, start=tracker.step):
             train_loop(state, batch, accel, lambdas)
