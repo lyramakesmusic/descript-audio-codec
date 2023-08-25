@@ -59,6 +59,7 @@ losses = argbind.bind_module(dac.nn.loss, filter_fn=filter_fn)
 
 
 def get_infinite_loader(dataloader):
+    print(len(dataloader))
     while True:
         for batch in dataloader:
             yield batch
@@ -149,10 +150,8 @@ def load(
     generator = DAC() if generator is None else generator
     discriminator = Discriminator() if discriminator is None else discriminator
 
-    tracker.print(generator)
-    tracker.print(discriminator)
-
-    print('@ line 155')
+    # tracker.print(generator)
+    # tracker.print(discriminator)
 
     generator = accel.prepare_model(generator)
     discriminator = accel.prepare_model(discriminator)
@@ -411,7 +410,7 @@ def train(
     save_samples = when(lambda: accel.local_rank == 0)(save_samples)
     checkpoint = when(lambda: accel.local_rank == 0)(checkpoint)
 
-    print('@ line 414, starting training')
+    print('starting training')
     with tracker.live:
         for tracker.step, batch in enumerate(train_dataloader, start=tracker.step):
             train_loop(state, batch, accel, lambdas)
