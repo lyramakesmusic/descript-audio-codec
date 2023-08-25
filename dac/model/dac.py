@@ -70,7 +70,7 @@ class Encoder(nn.Module):
     ):
         super().__init__()
         # Create first convolution
-        self.block = [WNConv1d(1, d_model, kernel_size=7, padding=3)]
+        self.block = [WNConv1d(2, d_model, kernel_size=7, padding=3)]
 
         # Create EncoderBlocks that double channels as they downsample by `stride`
         for stride in strides:
@@ -118,7 +118,7 @@ class Decoder(nn.Module):
         input_channel,
         channels,
         rates,
-        d_out: int = 1,
+        d_out: int = 2,
     ):
         super().__init__()
 
@@ -215,7 +215,7 @@ class DAC(BaseModel, CodecMixin):
 
         Parameters
         ----------
-        audio_data : Tensor[B x 1 x T]
+        audio_data : Tensor[B x 2 x T]
             Audio data to encode
         n_quantizers : int, optional
             Number of quantizers to use, by default None
@@ -260,7 +260,7 @@ class DAC(BaseModel, CodecMixin):
         -------
         dict
             A dictionary with the following keys:
-            "audio" : Tensor[B x 1 x length]
+            "audio" : Tensor[B x 2 x length]
                 Decoded audio data.
         """
         return self.decoder(z)
@@ -275,7 +275,7 @@ class DAC(BaseModel, CodecMixin):
 
         Parameters
         ----------
-        audio_data : Tensor[B x 1 x T]
+        audio_data : Tensor[B x 2 x T]
             Audio data to encode
         sample_rate : int, optional
             Sample rate of audio data in Hz, by default None
@@ -302,7 +302,7 @@ class DAC(BaseModel, CodecMixin):
                 Codebook loss to update the codebook
             "length" : int
                 Number of samples in input audio
-            "audio" : Tensor[B x 1 x length]
+            "audio" : Tensor[B x 2 x length]
                 Decoded audio data.
         """
         length = audio_data.shape[-1]
@@ -337,7 +337,7 @@ if __name__ == "__main__":
     print("Total # of params: ", sum([np.prod(p.size()) for p in model.parameters()]))
 
     length = 88200 * 2
-    x = torch.randn(1, 1, length).to(model.device)
+    x = torch.randn(1, 2, length).to(model.device)
     x.requires_grad_(True)
     x.retain_grad()
 
@@ -360,5 +360,5 @@ if __name__ == "__main__":
 
     print(f"Receptive field: {rf.item()}")
 
-    x = AudioSignal(torch.randn(1, 1, 44100 * 60), 44100)
+    x = AudioSignal(torch.randn(1, 2, 44100 * 60), 44100)
     model.decompress(model.compress(x, verbose=True), verbose=True)
