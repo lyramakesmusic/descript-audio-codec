@@ -180,7 +180,7 @@ class CodecMixin:
         audio_signal.ensure_max_of_audio()
 
         nb, nac, nt = audio_signal.audio_data.shape
-        audio_signal.audio_data = audio_signal.audio_data.reshape(nb * nac, 1, nt)
+        audio_signal.audio_data = audio_signal.audio_data.reshape(nb * nac, 2, nt)
         win_duration = (
             audio_signal.signal_duration if win_duration is None else win_duration
         )
