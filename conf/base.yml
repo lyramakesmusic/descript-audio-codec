@@ -83,7 +83,16 @@ test/AudioDataset.n_examples: 1000
 
 AudioLoader.shuffle: true
 AudioDataset.without_replacement: true
+AudioDataset.num_channels: 2
 
 train/build_dataset.folders:
   general:
-    - /data/train
+    - /data/train/
+
+val/build_dataset.folders:
+  general:
+    - /data/train/
+
+test/build_dataset.folders:
+  general:
+    - /data/train/
