@@ -29,7 +29,7 @@ AdamW.lr: 0.0001
 ExponentialLR.gamma: 0.999996
 
 amp: false
-val_batch_size: 100
+val_batch_size: 10
 device: cuda
 num_iters: 250000
 save_iters: [10000, 50000, 100000, 200000]
@@ -54,7 +54,6 @@ build_transform.augment_prob: 0.0
 build_transform.augment:
   - Identity
 build_transform.postprocess:
-  - VolumeNorm
   - RescaleAudio
   - ShiftPhase
 
@@ -69,17 +68,18 @@ MelSpectrogramLoss.clamp_eps: 1.0e-5
 MelSpectrogramLoss.mag_weight: 0.0
 
 # Data
-batch_size: 72
-train/AudioDataset.duration: 0.38
-train/AudioDataset.n_examples: 10000000
 
-val/AudioDataset.duration: 5.0
+batch_size: 10
+train/AudioDataset.duration: 30.0
+train/AudioDataset.n_examples: 721
+
+val/AudioDataset.duration: 30.0
 val/build_transform.augment_prob: 1.0
-val/AudioDataset.n_examples: 250
+val/AudioDataset.n_examples: 92
 
-test/AudioDataset.duration: 10.0
+test/AudioDataset.duration: 30.0
 test/build_transform.augment_prob: 1.0
-test/AudioDataset.n_examples: 1000
+test/AudioDataset.n_examples: 90
 
 AudioLoader.shuffle: true
 AudioDataset.without_replacement: true
@@ -87,12 +87,12 @@ AudioDataset.num_channels: 2
 
 train/build_dataset.folders:
   general:
-    - /data/train/
+    - data/train/
 
 val/build_dataset.folders:
   general:
-    - /data/train/
+    - data/eval/
 
 test/build_dataset.folders:
   general:
-    - /data/train/
+    - data/test/
