@@ -30,7 +30,7 @@ class MPD(nn.Module):
         self.period = period
         self.convs = nn.ModuleList(
             [
-                WNConv2d(1, 32, (5, 1), (3, 1), padding=(2, 0)),
+                WNConv2d(2, 32, (5, 1), (3, 1), padding=(2, 0)),
                 WNConv2d(32, 128, (5, 1), (3, 1), padding=(2, 0)),
                 WNConv2d(128, 512, (5, 1), (3, 1), padding=(2, 0)),
                 WNConv2d(512, 1024, (5, 1), (3, 1), padding=(2, 0)),
@@ -67,7 +67,7 @@ class MSD(nn.Module):
         super().__init__()
         self.convs = nn.ModuleList(
             [
-                WNConv1d(1, 16, 15, 1, padding=7),
+                WNConv1d(2, 16, 15, 1, padding=7),
                 WNConv1d(16, 64, 41, 4, groups=4, padding=20),
                 WNConv1d(64, 256, 41, 4, groups=16, padding=20),
                 WNConv1d(256, 1024, 41, 4, groups=64, padding=20),
