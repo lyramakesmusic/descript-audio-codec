@@ -435,7 +435,7 @@ if __name__ == "__main__":
     args = argbind.parse_args()
     args["args.debug"] = int(os.getenv("LOCAL_RANK", 0)) == 0
     with argbind.scope(args):
-        with Accelerator() as accel:
+        with Accelerator(amp=True) as accel:
             if accel.local_rank != 0:
                 sys.tracebacklimit = 0
             train(args, accel)
