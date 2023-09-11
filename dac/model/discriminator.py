@@ -149,8 +149,7 @@ class MRD(nn.Module):
     def spectrogram(self, x):
         x = AudioSignal(x, self.sample_rate, stft_params=self.stft_params)
         x = torch.view_as_real(x.stft())
-        x = rearrange(x, "b 1 f t c -> (b 1) c t f")
-        # Split into bands
+        x = rearrange(x, "b c f t d -> (b c) d t f")  # use c instead of 1
         x_bands = [x[..., b[0] : b[1]] for b in self.bands]
         return x_bands
 
