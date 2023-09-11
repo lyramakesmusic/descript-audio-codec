@@ -69,7 +69,7 @@ MelSpectrogramLoss.mag_weight: 0.0
 
 # Data
 
-batch_size: 10
+batch_size: 1
 train/AudioDataset.duration: 30.0
 train/AudioDataset.n_examples: 721
 
